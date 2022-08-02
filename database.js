@@ -13,4 +13,9 @@ async function connect() {
     return client;
 }
 
-module.exports = connect;
+async function run_query(client, query, params) {
+    let res = await client.query(query, params);
+    return res.rows;
+}
+
+module.exports = { connect, run_query };
