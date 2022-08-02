@@ -12,3 +12,5 @@ async function connect() {
     await client.connect();
     return client;
 }
+
+module.exports = connect;
