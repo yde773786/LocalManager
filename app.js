@@ -43,9 +43,8 @@ app.use(function (err, req, res, next) {
 const port = 8000;
 
 connectDb()
-    .then((db) => {
+    .then(() => {
         console.log("Database connected");
-        const crud = db.db("crud");
 
         app.listen(port, () => {
             console.log(`Example app listening on port ${port}`);

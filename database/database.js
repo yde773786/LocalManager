@@ -1,10 +1,24 @@
 const { MongoClient } = require("mongodb");
 
+let mongoos;
+
 const url = "mongodb://127.0.0.1:27017";
 
 async function connectDb() {
     const client = new MongoClient(url);
-    return client.connect();
+    client
+        .connect()
+        .then((db) => {
+            mongoos = db;
+            return Promise.resolve();
+        })
+        .catch(() => {
+            return Promise.reject();
+        });
 }
 
-module.exports = { connectDb };
+function getDb() {
+    return mongoos;
+}
+
+module.exports = { connectDb, getDb };
