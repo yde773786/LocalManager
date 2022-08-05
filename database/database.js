@@ -1,20 +1,10 @@
-const {Client} = require('pg');
+const { MongoClient } = require("mongodb");
 
-let client = new Client({
-    host: "localhost",
-    user: "crud",
-    port: 5432,
-    password: "password",
-    database: "db",
-});
+const url = "mongodb://127.0.0.1:27017";
 
-let connectDatabase = async () => {
-    await client.connect();
-    return client;
+async function connectDb() {
+    const client = new MongoClient(url);
+    return client.connect();
 }
 
-let run_query = async (query, params) => {
-    return client.query(query, params);
-}
-
-module.exports = {connectDatabase, run_query};
+module.exports = { connectDb };
