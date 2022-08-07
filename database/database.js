@@ -1,11 +1,12 @@
-const { MongoClient } = require("mongodb");
+const { MongoClient, ServerApiVersion} = require("mongodb");
 
 let mongoos;
 
-const url = "mongodb://127.0.0.1:27017";
+const url = "mongodb+srv://crud:password@crud.lslvjjf.mongodb.net/?retryWrites=true&w=majority";
 
 async function connectDb() {
-    const client = new MongoClient(url);
+    const client = new MongoClient(url,
+        { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
     client
         .connect()
         .then((db) => {

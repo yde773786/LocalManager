@@ -4,8 +4,6 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
-var { connectDb } = require("./database/database");
-
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 
@@ -42,14 +40,4 @@ app.use(function (err, req, res, next) {
 
 const port = 8000;
 
-connectDb()
-    .then(() => {
-        console.log("Database connected");
-
-        app.listen(port, () => {
-            console.log(`Example app listening on port ${port}`);
-        });
-    })
-    .catch((err) => {
-        console.log(`Database was not able to load \n ${err}`);
-    });
+module.exports = app;
