@@ -1,25 +1,26 @@
 const { MongoClient, ServerApiVersion} = require("mongodb");
 
-let mongoos;
+let mongoose;
 
-const url = "mongodb+srv://crud:password@crud.lslvjjf.mongodb.net/?retryWrites=true&w=majority";
+const url = "mongodb+srv://crud:y7TAts5GZb63Szq@crud.lslvjjf.mongodb.net/?retryWrites=true&w=majority";
 
 async function connectDb() {
+
     const client = new MongoClient(url,
         { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
     client
         .connect()
         .then((db) => {
-            mongoos = db;
+            mongoose = db;
             return Promise.resolve();
         })
-        .catch(() => {
-            return Promise.reject();
+        .catch((err) => {
+            return Promise.reject(err);
         });
 }
 
 function getDb() {
-    return mongoos;
+    return mongoose;
 }
 
 module.exports = { connectDb, getDb };
