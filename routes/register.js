@@ -8,22 +8,39 @@ router.get('/', function(req, res, next) {
     res.render('register');
 });
 
-router.post('/', function (req, res, next) {
+router.post('/', async (req, res, next) => {
 
     let db = getDb();
 
     let dbo = db.db("crud");
-    dbo.collection('Users').insertOne({
-        "username": req.body.username,
-        "password": req.body.password,
-        "email": req.body.email,
-        "name": req.body.name
-        }).then((value) => {
-            console.log(value);
+
+    let checkInsert = async () => {
+
+        if(!(await dbo.collection('Users').findOne({"_id":req.body.username}))){
+            dbo.collection('Users').insertOne({
+                "_id": req.body.username,
+                "password": req.body.password,
+                "email": req.body.email,
+                "name": req.body.name
+            }).then((value) => {
+                    console.log(value);
+                    res.render('register', {
+                        message: 'You have registered!'
+                    })
+                }
+            ).catch((err) => {
+                console.log('Resource unavailable: ', err);
+                res.status(500)
+            })
         }
-    ).catch((err) => {
-        console.log('Resource unavailable: ', err);
-    })
+        else{
+            res.render('register', {
+                message: 'There is already a user registered under that username'
+            })
+        }
+    }
+
+    await checkInsert();
 })
 
 module.exports = router;
