@@ -1,6 +1,7 @@
-var express = require('express');
+const express = require('express');
+const crypto = require('crypto');
 const {getDb} = require("../database/database");
-var router = express.Router();
+const router = express.Router();
 
 
 /* GET users listing. */
@@ -17,9 +18,13 @@ router.post('/', async (req, res, next) => {
     let checkInsert = async () => {
 
         if(!(await dbo.collection('Users').findOne({"_id":req.body.username}))){
+
+            let hash = crypto.createHash('sha256');
+            let hashed_str = hash.update(req.body.password, 'utf-8');
+
             dbo.collection('Users').insertOne({
                 "_id": req.body.username,
-                "password": req.body.password,
+                "password": hashed_str.digest('hex'),
                 "email": req.body.email,
                 "name": req.body.name
             }).then((value) => {
