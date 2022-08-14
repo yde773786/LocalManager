@@ -1,6 +1,7 @@
-var express = require('express');
+let express = require('express');
 const {getDb} = require("../database/database");
-var router = express.Router();
+let router = express.Router();
+const crypto = require('crypto');
 
 
 /* GET users listing. */
@@ -14,10 +15,17 @@ router.post('/', function (req, res, next) {
     let db = getDb();
 
     let dbo = db.db("crud");
-    dbo.collection('Users').findOne({"username": req.body.username}).then((value) => {
-            console.log(value);
+    dbo.collection('Users').findOne({"_id": req.body.username}).then((value) => {
+
+        let hash = crypto.createHash('sha256');
+        let hashed_str = hash.update(req.body.password, 'utf-8');
+        if(value === null || hashed_str.digest('hex') !== value.password){
+            res.render('users', {user: 'Wrong username/password'});
         }
-    ).catch((err) => {
+        else{
+            res.render('index');
+        }
+    }).catch((err) => {
         console.log('Resource unavailable: ', err);
     })
 })
