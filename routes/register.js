@@ -1,5 +1,8 @@
 const express = require('express');
 const crypto = require('crypto');
+const {sessionGen} = require("../utils/utils");
+const fs = require('fs');
+const os = require('os');
 const {getDb} = require("../database/database");
 const router = express.Router();
 
@@ -26,11 +29,15 @@ router.post('/', async (req, res, next) => {
                 "_id": req.body.username,
                 "password": hashed_str.digest('hex'),
                 "email": req.body.email,
-                "name": req.body.name
+                "name": req.body.name,
+                "token": sessionGen()
             }).then((value) => {
                     console.log(value);
-                    res.render('register', {
-                        message: 'You have registered!'
+                    res.render('index', { title: "Local Manager" })
+
+                    let dir = '/home/' + os.userInfo().username + '/CRUD/' + req.body.username;
+                    fs.promises.mkdir(dir).then(() => {
+                        console.log('Directory Created');
                     })
                 }
             ).catch((err) => {
