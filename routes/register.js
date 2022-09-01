@@ -25,14 +25,17 @@ router.post('/', async (req, res, next) => {
             let hash = crypto.createHash('sha256');
             let hashed_str = hash.update(req.body.password, 'utf-8');
 
+            let access_token = sessionGen()
             dbo.collection('Users').insertOne({
                 "_id": req.body.username,
                 "password": hashed_str.digest('hex'),
                 "email": req.body.email,
                 "name": req.body.name,
-                "token": sessionGen()
+                "token": access_token
             }).then((value) => {
                     console.log(value);
+
+                    res.cookie('access_token', access_token)
                     res.render('index', { title: "Local Manager" })
 
                     let dir = '/home/' + os.userInfo().username + '/CRUD/' + req.body.username;
