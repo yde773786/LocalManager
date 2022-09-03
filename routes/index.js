@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const {getDb} = require("../database/database");
+const {getDb, current} = require("../database/database");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -9,6 +9,7 @@ router.get("/", function (req, res, next) {
         let db = getDb();
         let dbo = db.db("crud");
         dbo.collection('Users').findOne({"token": req.cookies['access_token']}).then((value) => {
+            current.user = value
             res.redirect('/dashboard')
         })
     }

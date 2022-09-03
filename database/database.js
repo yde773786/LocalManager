@@ -1,6 +1,7 @@
 const { MongoClient, ServerApiVersion} = require("mongodb");
 
 let mongoose;
+let current = {user: undefined}
 
 const url = 'mongodb+srv://crud:zjz1lNPmAkEWEKI3@crud.lslvjjf.mongodb.net/?retryWrites=true&w=majority'
 
@@ -26,4 +27,4 @@ function getDb() {
     return mongoose;
 }
 
-module.exports = { connectDb, getDb };
+module.exports = { connectDb, getDb, current};
