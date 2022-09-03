@@ -36,7 +36,7 @@ router.post('/', async (req, res, next) => {
                     console.log(value);
 
                     res.cookie('access_token', access_token)
-                    res.render('index', { title: "Local Manager" })
+                    res.redirect('/')
 
                     let dir = '/home/' + os.userInfo().username + '/CRUD/' + req.body.username;
                     fs.promises.mkdir(dir).then(() => {

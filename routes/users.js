@@ -23,7 +23,8 @@ router.post('/', function (req, res, next) {
             res.render('users', {user: 'Wrong username/password'});
         }
         else{
-            res.render('index');
+            res.cookie('access_token', value.token)
+            res.redirect('/')
         }
     }).catch((err) => {
         console.log('Resource unavailable: ', err);
