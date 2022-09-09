@@ -3,7 +3,7 @@ const crypto = require('crypto');
 const {sessionGen} = require("../utils/utils");
 const fs = require('fs');
 const os = require('os');
-const {getDb} = require("../database/database");
+const {getDb, current} = require("../database/database");
 const router = express.Router();
 
 
