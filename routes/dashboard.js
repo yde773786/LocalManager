@@ -4,7 +4,7 @@ const {current} = require("../database/database")
 const os = require("os");
 var router = express.Router();
 
-let allfiles = []
+let allfiles = {files: []}
 
 router.get("/", function (req, res, next) {
     if(current.user){
@@ -21,7 +21,7 @@ router.get("/files", function (req, res, next) {
 
     fs.readdir(dir, (err, files) => {
         files.forEach(file => {
-            allfiles.push(file)
+            allfiles.files.push(file)
         })
 
         res.json(allfiles)
