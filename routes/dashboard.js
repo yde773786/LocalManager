@@ -18,6 +18,7 @@ router.get("/", function (req, res, next) {
 router.get("/files", function (req, res, next) {
     let dir = '/home/' + os.userInfo().username + '/CRUD/' + current.user['_id'];
     console.log(dir)
+    allfiles.files = []
 
     fs.readdir(dir, (err, files) => {
         files.forEach(file => {
@@ -26,6 +27,10 @@ router.get("/files", function (req, res, next) {
 
         res.json(allfiles)
     })
+});
+
+router.post("/download", function (req, res) {
+    console.log(req.body)
 });
 
 module.exports = router;
