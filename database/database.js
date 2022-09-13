@@ -3,7 +3,7 @@ const { MongoClient, ServerApiVersion} = require("mongodb");
 let mongoose;
 let current = {user: undefined}
 
-const url = 'mongodb+srv://crud:zjz1lNPmAkEWEKI3@crud.lslvjjf.mongodb.net/?retryWrites=true&w=majority'
+const url = '<Database link goes here>'
 
 async function connectDb() {
 
