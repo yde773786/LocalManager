@@ -1,6 +1,6 @@
 # LocalManager
 
-A locally hosted web-application which aims to serve as a local cloud service.
+A locally hosted web-application which aims to serve as a local file management service.
 
 ## Features
   * Authentication (including token-based Authentication)
