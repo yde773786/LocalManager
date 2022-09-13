@@ -5,10 +5,13 @@ const os = require("os");
 var router = express.Router();
 
 let allfiles = {files: []}
+let dir
+let file
 
 router.get("/", function (req, res, next) {
     if(current.user){
         res.render("dashboard", {username: current.user['name']});
+        dir = '/home/' + os.userInfo().username + '/CRUD/' + current.user['_id'];
     }
     else{
         res.render("noaccess");
@@ -16,8 +19,7 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/files", function (req, res, next) {
-    let dir = '/home/' + os.userInfo().username + '/CRUD/' + current.user['_id'];
-    console.log(dir)
+
     allfiles.files = []
 
     fs.readdir(dir, (err, files) => {
@@ -30,7 +32,16 @@ router.get("/files", function (req, res, next) {
 });
 
 router.post("/download", function (req, res) {
-    console.log(req.body)
+    file = dir + '/' + req.body.filename
+    res.redirect('/dashboard')
+});
+
+router.get("/download", function (req, res) {
+    res.download(file, req.body.filename, (err) => {
+        if(err){
+            console.log(err)
+        }
+    })
 });
 
 module.exports = router;

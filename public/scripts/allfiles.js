@@ -19,15 +19,23 @@ fetch('/dashboard/files', {
             link.addEventListener('click', () => {
                 let link_json = {'filename': link.id}
 
-                fetch('/dashboard/download', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                        // 'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: JSON.stringify(link_json)
+                let getFile =  async () => {
+                    await fetch('/dashboard/download', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(link_json)
+                    })
+
+                    window.open("http://localhost:3000/dashboard/download")
+                }
+
+                getFile().then(() => {
+                    console.log('Done')
+                }).catch((reason) => {
+                    console.log(reason)
                 })
-                console.log(JSON.stringify(link_json))
             })
         }
 
